@@ -2,7 +2,7 @@
 
 This project simply demonstrates how to call the API using the SSDT (System Service Dispatch Table) in a Windows kernel driver.
 
-The goal of this project is to show how to interact with system services (like NtCreateFile and NtWriteFile) by directly accessing the SSDT, which contains the addresses of these system routines. This project is meant for learning how Windows kernel operations work.
+The goal of this project is to show how to interact with system services (like NtCreateFile and NtWriteFile) by directly accessing the SSDT, which contains the addresses of these system routines.
 
 ## How It Works
 
@@ -12,13 +12,9 @@ The goal of this project is to show how to interact with system services (like N
 
 - **File Operations Using SSDT:** The main objective of the driver is to demonstrate file operations by using the NtCreateFile and NtWriteFile services. These system calls are used to create and write to a file in kernel mode.
 
-First, the driver creates a file C:\ssdt.txt using the NtCreateFile system service.
-Then, it writes a string ("Hello SSDT!") into this file using the NtWriteFile system service.
-Driver Entry and Unloading: The DriverEntry function initializes and performs the file operations, while UnloadDriver handles the unloading of the driver from the kernel.
-
 ## `⚙️` Required Modifications Before Running the Project
 
-First, there are variables in the Project that need to be set manually. One is the address of the SSDT table and the other SSN numbers:
+There are variables in the Project that need to be set manually. One is the address of the SSDT table and the other SSN numbers:
 
 ```c
 #pragma warning(disable: 4083 4005)
