@@ -3,6 +3,7 @@
 @author: 0xbekoo
 @Project: Kernel Driver - SSDT
 @Last-Update: 2024-12-25
+@Platform: Windows 10 x64 (19045)
 
 @Warning: Remember that this project is very simple and is only for educational purposes.
 
@@ -10,15 +11,17 @@
 #pragma warning(disable: 4083 4005)
 #include "main.h"
 
+
 /*
 	SSDT Address needs to be entered manually. For this you need to get the address from windbg:
 
 	kd > dps nt!keservicedescriptortable L1
-	 > fffff806`402018c0  fffff802`2a0c7cb0 nt!KiServiceTable
+	 > fffff806`402018c0  fffff800`31ac7cb0 nt!KiServiceTable
 
-	And then enter the address here like this:
+	And then enter the address here like this: 0xfffff80031ac7cb0
 */
-#define KiServiceTableAddress 0xfffff8022a0c7cb0
+#define KiServiceTableAddress 0x0
+
 
 /*
 	SSN (Service System Number) is the index of the service in the SSDT. You can find the SSN by windbg:
@@ -89,12 +92,11 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryPath) 
 	if (0 == Address) {
 		return STATUS_NOT_FOUND;
 	}
-	// Check the README to understand why I have given the address of NtCreateFile to the IopCreateFile structure.
-	My_IopCreateFile MyIopCreateFile = (My_IopCreateFile)Address;
+	My_NtCreateFile MyNtCreateFile = (My_NtCreateFile)Address;
 
-	// Call IopCreateFile
-	Status = MyIopCreateFile(&HandleFile, GENERIC_WRITE, &ObjAttr, &IoStatusBlock, NULL, FILE_ATTRIBUTE_NORMAL, \
-								0, FILE_OVERWRITE_IF, FILE_SYNCHRONOUS_IO_NONALERT, NULL, 0, 0, NULL, 0, 0, NULL);
+	// Call NtCreateFile
+	Status = MyNtCreateFile(&HandleFile, GENERIC_WRITE, &ObjAttr, &IoStatusBlock, NULL, FILE_ATTRIBUTE_NORMAL, \
+								0, FILE_OVERWRITE_IF, FILE_SYNCHRONOUS_IO_NONALERT, NULL, 0);
 	if (!NT_SUCCESS(Status)) {
 		DbgPrintEx(0, 0, "Failed to Create File! Error: 0x%08x\n", Status);
 		return Status;
