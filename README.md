@@ -28,6 +28,10 @@ There are variables in the Project that need to be set manually. One is the addr
 
 You can use windbg to get these values. In particular, if you do not append the address of the SSDT table properly, you will get a BSOD error.
 
+## `🎥` Video
+
+![](./video/video.gif)
+
 ## `🚨` Disclaimer
 
 This project is developed for educational purposes only. The project focuses only on explaining how to call the API directly using the SSDT table. 
