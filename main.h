@@ -20,23 +20,18 @@ NTSTATUS UnloadDriver(
 );
 
 
-typedef (NTAPI* My_IopCreateFile)(
-	OUT PHANDLE FileHandle,
-	IN ACCESS_MASK DesiredAccess,
-	IN POBJECT_ATTRIBUTES ObjectAttributes,
-	OUT PIO_STATUS_BLOCK IoStatusBlock,
-	IN PLARGE_INTEGER AllocationSize OPTIONAL,
-	IN ULONG FileAttributes,
-	IN ULONG ShareAccess,
-	IN ULONG Disposition,
-	IN ULONG CreateOptions,
-	IN PVOID EaBuffer OPTIONAL,
-	IN ULONG EaLength,
-	IN CREATE_FILE_TYPE CreateFileType,
-	IN PVOID ExtraCreateParameters OPTIONAL,
-	IN ULONG Options,
-	IN ULONG Flags,
-	IN PDEVICE_OBJECT DeviceObject OPTIONAL
+typedef (NTAPI* My_NtCreateFile)(
+	_Out_ PHANDLE FileHandle,
+	_In_ ACCESS_MASK DesiredAccess,
+	_In_ POBJECT_ATTRIBUTES ObjectAttributes,
+	_Out_ PIO_STATUS_BLOCK IoStatusBlock,
+	_In_opt_ PLARGE_INTEGER AllocationSize,
+	_In_ ULONG FileAttributes,
+	_In_ ULONG ShareAccess,
+	_In_ ULONG CreateDisposition,
+	_In_ ULONG CreateOptions,
+	_In_reads_bytes_opt_(EaLength) PVOID EaBuffer,
+	_In_ ULONG EaLength
 );
 
 typedef (NTAPI* My_NtWriteFile)(
